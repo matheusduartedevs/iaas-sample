@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: backend-service
+    env: node
+    buildCommand: cd server && npm install
+    startCommand: node index.js
+    rootDir: server
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 3001
+
+  - type: web
+    name: frontend-service
+    env: static
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/dist
+    rootDir: client
+
+  - type: worker
+    name: email-worker
+    env: node
+    buildCommand: cd worker && npm install
+    startCommand: node index.js
+    rootDir: worker
+    plan: starter
+    envVars:
+      - key: EMAIL_USER
+        value: seu-email@gmail.com
+      - key: EMAIL_PASS
+        value: sua-senha-ou-app-password
